@@ -2,19 +2,14 @@ import pygame
 import sys
 import random
 
-# --- TIER I: CONFIGURATION (RETRO SPEC) ---
-# The size of the window on your monitor
 WINDOW_WIDTH = 640
 WINDOW_HEIGHT = 480
 
-# The actual internal resolution (Classic 4:3 Console resolution)
-# This will make the pixels look chunky and authentic.
 INTERNAL_WIDTH = 320
 INTERNAL_HEIGHT = 240
 
 FPS = 60
 
-# Colors (Solarized / Retro Palette)
 COLOR_BG = (15, 15, 20)      # Dark Void
 COLOR_WALL = (85, 98, 112)   # Slate Blue
 COLOR_PLAYER = (255, 107, 107) # Salmon Red
@@ -22,14 +17,12 @@ COLOR_ATTACK = (255, 255, 255) # Pure White Slash
 COLOR_ENEMY = (78, 205, 196)   # Teal
 COLOR_DEBUG_HITBOX = (255, 255, 0)
 
-# Controller Mapping
 BTN_A = 0 
 BTN_B = 1 
 BTN_X = 2 
 BTN_Y = 3
 AXIS_DEADZONE = 0.2
 
-# --- TIER II: INPUT ABSTRACTION ---
 class InputManager:
     """
     Decouples hardware (Keyboard/Gamepad) from Game Logic.
@@ -123,9 +116,6 @@ class Player(Entity):
         self.state = "ATTACK"
         self.attack_timer = 0.25 # Fast swing
         
-        # Create Hitbox
-        # Size: 20x20 (slightly larger than player)
-        # Offset: 12 pixels in facing direction
         offset = self.facing_dir * 12
         self.attack_rect = pygame.Rect(0, 0, 20, 20)
         self.attack_rect.center = (self.rect.centerx + offset.x, self.rect.centery + offset.y)
@@ -168,11 +158,8 @@ class Camera:
 class Game:
     def __init__(self):
         pygame.init()
-        # Initialize Window (640x480)
-        # SCALED flag improves quality on some setups
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         
-        # The internal "pixel art" surface
         self.display_surface = pygame.Surface((INTERNAL_WIDTH, INTERNAL_HEIGHT))
         
         pygame.display.set_caption("Tiny ARPG")
@@ -192,9 +179,7 @@ class Game:
     def init_level(self):
         self.player = Player(100, 80)
         self.all_sprites.add(self.player)
-        
-        # Create boundaries for the 320x240 world feel
-        # Just some random blocks
+
         for _ in range(15):
             x = random.randint(0, 500)
             y = random.randint(0, 400)
@@ -251,3 +236,4 @@ class Game:
 
 if __name__ == "__main__":
     Game().run()
+
